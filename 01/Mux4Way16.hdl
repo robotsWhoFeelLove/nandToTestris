@@ -1,0 +1,96 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/1/Mux4Way16.hdl
+/**
+ * 4-way 16-bit multiplexor:
+ * out = a if sel = 00
+ *       b if sel = 01
+ *       c if sel = 10
+ *       d if sel = 11
+ */
+CHIP Mux4Way16 {
+    IN a[16], b[16], c[16], d[16], sel[2];
+    OUT out[16];
+    
+    PARTS:
+    //// Replace this comment with your code.
+    Not(in=sel[0] , out=notSel0 );
+    Not(in=sel[1] , out= notSel1);
+    And(a=notSel0 , b=notSel1 , out= notSel1AndNotSel0);
+    And(a=sel[0], b=sel[1], out=sel01);
+    And(a=sel[0], b=notSel1, out=sel0);
+    And(a=notSel0 , b=sel[1] , out= sel1);
+
+    And16(a[0]= sel01,
+          a[1]= sel01,
+          a[2]= sel01,
+          a[3]= sel01,
+          a[4]= sel01,
+          a[5]= sel01,
+          a[6]= sel01,
+          a[7]= sel01,
+          a[8]= sel01,
+          a[9]= sel01,
+          a[10]= sel01,
+          a[11]= sel01,
+          a[12]= sel01,
+          a[13]= sel01,
+          a[14]= sel01,
+          a[15]= sel01 , b= d , out= outD );
+  
+      And16(a[0]= notSel1AndNotSel0,
+          a[1]= notSel1AndNotSel0,
+          a[2]= notSel1AndNotSel0,
+          a[3]= notSel1AndNotSel0,
+          a[4]= notSel1AndNotSel0,
+          a[5]= notSel1AndNotSel0,
+          a[6]= notSel1AndNotSel0,
+          a[7]= notSel1AndNotSel0,
+          a[8]= notSel1AndNotSel0,
+          a[9]= notSel1AndNotSel0,
+          a[10]= notSel1AndNotSel0,
+          a[11]= notSel1AndNotSel0,
+          a[12]= notSel1AndNotSel0,
+          a[13]= notSel1AndNotSel0,
+          a[14]= notSel1AndNotSel0,
+          a[15]= notSel1AndNotSel0 , b= a , out= outA );
+
+             And16(a[0]= sel0,
+          a[1]= sel0,
+          a[2]= sel0,
+          a[3]= sel0,
+          a[4]= sel0,
+          a[5]= sel0,
+          a[6]= sel0,
+          a[7]= sel0,
+          a[8]= sel0,
+          a[9]= sel0,
+          a[10]= sel0,
+          a[11]= sel0,
+          a[12]= sel0,
+          a[13]= sel0,
+          a[14]= sel0,
+          a[15]= sel0 , b= b , out= outB );
+
+             And16(a[0]= sel1,
+          a[1]= sel1,
+          a[2]= sel1,
+          a[3]= sel1,
+          a[4]= sel1,
+          a[5]= sel1,
+          a[6]= sel1,
+          a[7]= sel1,
+          a[8]= sel1,
+          a[9]= sel1,
+          a[10]= sel1,
+          a[11]= sel1,
+          a[12]= sel1,
+          a[13]= sel1,
+          a[14]= sel1,
+          a[15]= sel1 , b= c , out= outC );
+
+        Or16(a=outB , b= outA, out= outAB);
+        Or16(a=outAB , b= outC , out= outABC );
+        Or16(a= outABC, b=outD , out=out );
+}

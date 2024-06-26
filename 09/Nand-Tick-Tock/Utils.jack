@@ -1,0 +1,28 @@
+class Utils{
+
+    function int getLoc(int x, int y){
+    return (y * (32 * 16))+  x;
+    }    
+
+    function Space getSpaceAt(Array arr, int x, int y){
+        var Array row;
+        let row = arr[y];
+        return row[x];
+    }
+
+    function Array numToXY(int num){
+        var Array xy;
+        let xy = Array.new(2);
+        if (num < 10){
+            let xy[0] = num;
+            let xy[1] = 0;
+        }
+        else {
+            let xy[0] = MoreMath.divide(num, 10);
+            let xy[1] = MoreMath.mod(num, 10);
+        }
+        return xy;
+    }
+}
+
+

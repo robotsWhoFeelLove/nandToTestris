@@ -1,0 +1,168 @@
+class Board2 {
+    field Array spaces, randNums;
+    field int i,j, bombsLeft;
+    field Space currentSpace, selectedSpace;
+
+    constructor Board2 new () {
+        var Array row;
+        var boolean hasBomb;
+        var Space currentSpace;
+        var Space space;
+        var int i, j;
+        var Array row;
+        var Space current, neighbor;
+        let spaces = Array.new(10);
+        let bombsLeft = 10;
+        let i = 0;
+        
+        let spaces = Array.new(10);
+        while (i < 10) {
+            let j = 0;
+            let spaces[i] = Array.new(10);
+            let row = spaces[i];
+            while (j < 10){
+                
+                let row[j] = Space.new(j, i);
+                let space = row[j];
+                do space.draw();
+             let j = j + 1;   
+            }
+            let i = i + 1;
+        }
+           
+        while (bombsLeft > 0) {
+            let randNums = Utils.numToXY(Random.randRange(99));
+          
+            let currentSpace = Utils.getSpaceAt(spaces,randNums[0],randNums[1]);
+            let hasBomb = currentSpace.getBomb();
+            if (hasBomb = false) {
+                do currentSpace.plantBomb();
+                let bombsLeft = bombsLeft - 1;
+                do currentSpace.draw();
+            }
+        }
+
+        let i = 0;
+        
+       
+        
+        while (i < 10) {
+            let j = 0;
+           // let row = spaces[i];
+            while (j < 10){ 
+                let current = Utils.getSpaceAt(spaces,j,i);
+                if ((j > 0) & (i > 0)){
+                    let neighbor = Utils.getSpaceAt(spaces,j-1, i-1);
+                    do current.addNeighbor(neighbor);
+                }
+                if (j > 0){
+                    do current.addNeighbor(Utils.getSpaceAt(spaces,j-1, i));
+                }
+                if (j < 10){
+                    do current.addNeighbor(Utils.getSpaceAt(spaces,j+1, i));
+                }
+                if (i < 10){
+                    do current.addNeighbor(Utils.getSpaceAt(spaces,j, i + 1));
+                }
+                if (i > 0){
+                    do current.addNeighbor(Utils.getSpaceAt(spaces,j, i - 1));
+                }
+                if ((i < 10) & (j < 10)){
+                    do current.addNeighbor(Utils.getSpaceAt(spaces,j+1, i + 1));
+                }
+                if ((i < 10) & (j > 0)){
+                    do current.addNeighbor(Utils.getSpaceAt(spaces,j-1, i + 1));
+                }
+                if ((i > 0) & (j < 10)){
+                    do current.addNeighbor(Utils.getSpaceAt(spaces,j+1, i - 1));
+                }
+                let row[j]= current;
+              
+                let j = j + 1;
+            }
+            let i = i + 1;
+        }
+
+ return this;
+        }
+
+    method void getNeighbors(){
+        var int i, j;
+        var Array row;
+        var Space current, neighbor;
+        let i = 0;
+        
+       
+        
+        while (i < 10) {
+            let j = 0;
+            let row = spaces[i];
+            while (j < 10){ 
+                let current = Utils.getSpaceAt(spaces,j,i);
+                if ((j > 0) & (i > 0)){
+                    let neighbor = Utils.getSpaceAt(spaces,j-1, i-1);
+                    do current.addNeighbor(neighbor);
+                }
+                if (j > 0){
+                    do current.addNeighbor(Utils.getSpaceAt(spaces,j-1, i));
+                }
+                if (j < 10){
+                    do current.addNeighbor(Utils.getSpaceAt(spaces,j+1, i));
+                }
+                if (i < 10){
+                    do current.addNeighbor(Utils.getSpaceAt(spaces,j, i + 1));
+                }
+                if (i > 0){
+                    do current.addNeighbor(Utils.getSpaceAt(spaces,j, i - 1));
+                }
+                if ((i < 10) & (j < 10)){
+                    do current.addNeighbor(Utils.getSpaceAt(spaces,j+1, i + 1));
+                }
+                if ((i < 10) & (j > 0)){
+                    do current.addNeighbor(Utils.getSpaceAt(spaces,j-1, i + 1));
+                }
+                if ((i > 0) & (j < 10)){
+                    do current.addNeighbor(Utils.getSpaceAt(spaces,j+1, i - 1));
+                }
+                let row[j]= current;
+              
+                let j = j + 1;
+            }
+            let i = i + 1;
+        }
+        return;
+    }
+
+
+    method Space checkSpace(int x, int y){
+        var Array row;
+        let row = spaces[y];
+        return row[x];
+    }
+
+    method void getSpace(int x ,int y){
+    var Array row;
+        do selectedSpace.toggleSelected();
+        do selectedSpace.draw();
+        let row = spaces[y];
+        let selectedSpace = row[x];
+        do selectedSpace.toggleSelected();
+        do selectedSpace.draw();
+        return;
+    }
+
+    method void selectSpace(int x ,int y){
+        if(selectedSpace.getUncovered() = false){
+        do selectedSpace.unCover();}
+        if (selectedSpace.getBomb()= true){
+            do Sprites.drawGameOver((5 * (16 * 32)) + 20);
+        }
+       // return selectedSpace.getBomb();
+       return;
+    }
+    method void flagSpace(int x ,int y){
+        do selectedSpace.toggleFlag();
+        return;
+    }
+
+}

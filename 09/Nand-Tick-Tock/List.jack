@@ -1,0 +1,22 @@
+class List {
+    field Space data;
+    field List next;
+    constructor List new(Space car, List cdr){
+        let data = car;
+        let next = cdr;
+        return this;
+    }
+
+    method Space getData(){
+        return data;
+    }
+
+    method void toString(){
+        do data.toString();
+        return;
+    }
+
+    method List getNext(){
+        return next;
+    }
+}

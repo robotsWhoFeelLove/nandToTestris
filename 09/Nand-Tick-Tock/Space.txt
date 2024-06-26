@@ -1,0 +1,150 @@
+class Space {
+    field boolean isBomb, hasFlag, isUncovered, isSelected;
+    field int numNeighbors, x, y, size;
+    field Array neighbors;
+    
+
+    constructor Space new (int xCoord, int yCoord){
+        let isBomb = false;
+        let isUncovered = false;
+        let numNeighbors = 0;
+        let x = xCoord;
+        let y = yCoord;
+       // let size = spaceSize;
+        let hasFlag = false;
+        let isSelected = false;
+        return this;
+    }
+
+    method void addNeighbors(Array n){
+        var int i, num;
+        var Space s;
+        var boolean hasBomb;
+        let num = 0;
+        // let neighbors = Array.new(8);
+        let i = 0;
+        while (i < 9){
+            let s = n[i];
+            let hasBomb = s.getBomb();
+            if (hasBomb = true) {
+                let numNeighbors = numNeighbors + 1;
+            }
+         
+           let i = i + 1;
+        }
+        return;
+    }
+
+    method void toString(){
+    do Output.printString("X:");
+    do Output.printInt(x);
+    do Output.printString("Y:");
+    do Output.printInt(y);
+    return;
+    }
+
+    method void plantBomb(){
+        let isBomb = true;
+        return;
+    }
+
+
+    method boolean getUncovered(){
+        return isUncovered;
+        }
+
+    method boolean getSelected(){
+        return isSelected;
+    }
+
+    method int getNeighbors(){
+        return numNeighbors;
+    }
+
+    method int getX(){
+        return x;
+    }
+
+
+    method int getY(){
+        return y;
+    }
+
+    method boolean getBomb(){
+        return isBomb;
+    }
+
+    method void unCover(){
+        let isUncovered = true;
+        let isSelected = false;
+        // if (isBomb){
+        //     do Sprites.drawBomb(90);  //fix
+        // }
+        // do draw();
+        return;
+    }
+
+    method void toggleSelected(){
+        if (isSelected = true) {
+            let isSelected = false;
+        } else {
+            if (isUncovered = false){
+            let isSelected = true;
+            }
+        }
+        return;
+    }
+
+    method void toggleFlag(){
+        let hasFlag = ~hasFlag;
+        return;
+    }
+
+    method void draw() {
+       // do Screen.setColor(true);
+       do chooseSprite();
+        // if (isSelected = true) {
+        //     do Sprites.drawSelected((y * (32 * 16))+ x); 
+        //     return;}
+        // else { 
+        //     if (isUncovered = false){
+        //     do Sprites.drawUnselected((y * (32 * 16))+ x);
+        //     } 
+            return;
+    }
+
+    method  void chooseSprite(){
+	//	var boolean isBomb, isSelected, isUncovered;
+        var int loc;
+        let loc = (y * (32 * 16)) +  x;
+ 
+
+        if (isSelected = true) {
+            do Sprites.drawSelected(loc);
+            return;
+        } 
+        if (isUncovered = true){
+        if (isBomb = true) {
+            do Sprites.drawBomb(loc);
+        } else {
+            if (numNeighbors = 0) {do Sprites.drawZero(loc);}
+            if (numNeighbors = 3) {do Sprites.drawThree(loc);}
+            if (numNeighbors = 4) {do Sprites.drawFour(loc);}
+            if (numNeighbors = 5) {do Sprites.drawFive(loc);}
+            if (numNeighbors = 6) {do Sprites.drawSix(loc);}
+            if (numNeighbors = 7) {do Sprites.drawSeven(loc);}
+            if (numNeighbors = 8) {do Sprites.drawEight(loc);}
+
+        }
+        } else {
+            do Sprites.drawUnselected(loc);
+        }
+        return;
+    }
+
+    method void dispose(){
+        do Memory.deAlloc(this);
+        return;
+    }
+
+}

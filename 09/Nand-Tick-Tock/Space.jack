@@ -1,0 +1,185 @@
+class Space {
+    field boolean isBomb, hasFlag, isUncovered, isSelected;
+    field int numNeighbors, x, y, size;
+    field List neighbors;
+    
+
+    constructor Space new (int xCoord, int yCoord){
+        let isBomb = false;
+        let isUncovered = false;
+        let numNeighbors = 0;
+        let x = xCoord;
+        let y = yCoord;
+        let hasFlag = false;
+        let isSelected = false;
+        return this;
+        
+    }
+
+    method void toggleFlag(){
+        if( hasFlag = true){
+            let hasFlag = false;
+        } else {
+            let hasFlag = true;
+        }
+        return;
+    }
+
+    method int getNumNeighbors(){
+        return numNeighbors;
+    }
+
+    method void addNeighbor(Space s){
+ 
+        var boolean hasBomb;
+        if (neighbors= null){
+            let neighbors = List.new(s,null);
+        } else {
+            let neighbors = List.new(s,neighbors);
+        }
+
+        if(s.getBomb() = true){
+            let numNeighbors = numNeighbors + 1;
+        }
+
+        return;
+    }
+
+    method void toString(){
+        do Output.printString("X:");
+        do Output.printInt(x);
+        do Output.printString("Y:");
+        do Output.printInt(y);
+    return;
+    }
+
+
+    method void plantBomb(){
+        let isBomb = true;
+        return;
+    }
+
+
+    method boolean getUncovered(){
+        
+        return isUncovered;
+        }
+
+    method boolean getSelected(){
+        return isSelected;
+    }
+
+    method int getNeighbors(){
+        return numNeighbors;
+    }
+
+    method int getX(){
+        return x;
+    }
+
+
+    method int getY(){
+        return y;
+    }
+
+    method boolean getBomb(){
+        return isBomb;
+    }
+
+    method void unCover(){
+        let isUncovered = true;
+        if (numNeighbors = 0){
+           do revealNeighbors(neighbors);
+        }
+         do draw();
+        return;
+    }
+
+    method void toggleSelected(){
+        if (isSelected = true) {
+            let isSelected = false;
+        } else {
+      
+            let isSelected = true;
+
+        }
+        return;
+    }
+
+
+    method void draw() {
+       do chooseSprite();
+            return;
+    }
+
+    method  void chooseSprite(){
+        var int loc;
+        let loc = ((y+1) * (32 * 16)) +  x;
+ 
+
+    
+        if (isUncovered = true){
+        if (isBomb = true) {
+            do Sprites.drawBomb(loc);
+        } else {
+            if (isSelected = true){
+                  if (numNeighbors = 0) {do Sprites.selectedZero(loc);}
+            if (numNeighbors = 1) {do Sprites.selectedOne(loc);}
+            if (numNeighbors = 2) {do Sprites.selectedTwo(loc);}
+            if (numNeighbors = 3) {do Sprites.selectedThree(loc);}
+            if (numNeighbors = 4) {do Sprites.selectedFour(loc);}
+            if (numNeighbors = 5) {do Sprites.selectedFive(loc);}
+            if (numNeighbors = 6) {do Sprites.selectedSix(loc);}
+            if (numNeighbors = 7) {do Sprites.selectedSeven(loc);}
+            if (numNeighbors = 8) {do Sprites.selectedEight(loc);} 
+            } else {
+            if (numNeighbors = 0) {do Sprites.drawZero(loc);}
+            if (numNeighbors = 1) {do Sprites.drawOne(loc);}
+            if (numNeighbors = 2) {do Sprites.drawTwo(loc);}
+            if (numNeighbors = 3) {do Sprites.drawThree(loc);}
+            if (numNeighbors = 4) {do Sprites.drawFour(loc);}
+            if (numNeighbors = 5) {do Sprites.drawFive(loc);}
+            if (numNeighbors = 6) {do Sprites.drawSix(loc);}
+            if (numNeighbors = 7) {do Sprites.drawSeven(loc);}
+            if (numNeighbors = 8) {do Sprites.drawEight(loc);}
+}
+        }
+        } else {
+                if (isSelected = true) {
+            if (hasFlag = true) {
+                do Sprites.SelectedFlag(loc);
+            } else {
+            do Sprites.drawSelected(loc);
+            }
+
+        } else {
+                 if (hasFlag = true) {
+                do Sprites.drawFlag(loc);
+            } else {
+            do Sprites.drawUnselected(loc);
+        }}}
+        return;
+    }
+    
+    method void revealNeighbors(List l){
+        var List current;
+        var Space s;
+        let current = l;
+        while (~(current = null)){
+            let s = current.getData();
+            if ((s.getBomb() = false) & (s.getUncovered() = false)){
+               do s.unCover();
+            }
+            let current = current.getNext();
+
+        }
+
+         return;
+    }
+
+    method void dispose(){
+        do Memory.deAlloc(this);
+        return;
+    }
+
+}

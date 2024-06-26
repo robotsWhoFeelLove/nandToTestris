@@ -1,0 +1,71 @@
+class Game {
+    field Board2 board;
+    field int x, y, dir;
+    field boolean wasPressed;
+
+    constructor Game new (){
+        let board = Board2.new();
+        let x = 0;
+        let y = 0;
+        let wasPressed = false;
+        do board.getSpace(x,y);
+        return this;
+    }
+
+    method void selectSpace(){
+        if ((dir = 0)){
+            let wasPressed = false   ; 
+        }
+        if ((dir = 1) & (x > 0) & ~(wasPressed)){
+            let x = x - 1;
+            let wasPressed = true ;  
+            do board.getSpace(x,y);  
+        }
+        if ((dir = 2) & (y > 0) & ~(wasPressed)){
+            let y = y - 1; 
+            let wasPressed = true ;  
+            do board.getSpace(x,y); 
+        }
+        if ((dir = 3) & (x < 10) & ~(wasPressed)){
+            let x = x + 1; 
+            let wasPressed = true ;   
+            do board.getSpace(x,y);
+        }
+        if ((dir = 4) & (y < 10) & ~(wasPressed)){
+            let y = y + 1;
+            let wasPressed = true ;   
+            do board.getSpace(x,y); 
+        }
+   
+        return;
+    }
+
+    method void run(){
+        var char key;
+        var boolean exit;
+        let exit = false;
+       
+
+       while (~exit) {
+           while (key = 0){
+            let dir = 0;
+            let key = Keyboard.keyPressed();
+            do selectSpace();
+           }
+           if(key = 130) {let dir = 1;} //left
+           if(key = 131) {let dir = 2;} //up
+           if(key = 132) {let dir = 3;} //right
+           if(key = 133) {let dir = 4;} //down
+            if(key = 0) {let dir = 0;}
+            if(key = 32) {do board.selectSpace(x,y);} //space
+            if(key = 102) {do board.flagSpace(x,y);} //f
+
+           while (~(key = 0)){
+            let key = Keyboard.keyPressed();
+            do selectSpace();
+           }
+       }
+return;
+    }
+    
+}
